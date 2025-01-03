@@ -19,6 +19,13 @@ export function renderContextTree({
   highlights,
   infinityScroll
 }: RenderContextTreeProps) {
+
+  // Extract alias from aliased links ([[Note title|Alias]]) to be highlighted
+  highlights = highlights.map((hl) => hl.split('|').slice(-1)[0]);
+
+  // Reformat heading and block links (e.g. [[Note title#Heading]]) to match reading view
+  highlights = highlights.map((hl) => hl.replace('#', ' > '));
+
   return render(
     () => (
       <PluginContextProvider plugin={plugin} infinityScroll={infinityScroll}>
